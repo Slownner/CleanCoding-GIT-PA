@@ -1,20 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Structura pentru nodul din lista de adiacență
 typedef struct Node {
     int data;
     struct Node *next;
 } Node;
 
-// Structura pentru graf
 typedef struct Graph {
     int vertices;
     int *visited;
     Node **adjacency_lists;
 } Graph;
 
-// Funcție pentru crearea unui nod nou
 Node *create_node(int v) {
     Node *new_node = malloc(sizeof(Node));
     new_node->data = v;
@@ -22,7 +19,6 @@ Node *create_node(int v) {
     return new_node;
 }
 
-// Funcție pentru crearea unui graf nou
 Graph *create_graph(int vertices) {
     Graph *graph = malloc(sizeof(Graph));
     graph->vertices = vertices;
@@ -37,20 +33,17 @@ Graph *create_graph(int vertices) {
     return graph;
 }
 
-// Funcție pentru adăugarea unei muchii între două noduri
 void add_edge(Graph *graph, int src, int dest) {
-    // Adăugare nod dest în lista de adiacență a lui src
+
     Node *new_node = create_node(dest);
     new_node->next = graph->adjacency_lists[src];
     graph->adjacency_lists[src] = new_node;
 
-    // Adăugare nod src în lista de adiacență a lui dest (pentru graf neorientat)
     new_node = create_node(src);
     new_node->next = graph->adjacency_lists[dest];
     graph->adjacency_lists[dest] = new_node;
 }
 
-// Funcție pentru parcurgerea grafului folosind DFS
 void DFS(Graph *graph, int vertex) {
     graph->visited[vertex] = 1;
     printf("%d -> ", vertex);
@@ -65,7 +58,6 @@ void DFS(Graph *graph, int vertex) {
     }
 }
 
-// Funcție pentru parcurgerea grafului folosind BFS
 void BFS(Graph *graph, int start) {
     Node *queue = NULL;
 
@@ -89,12 +81,10 @@ void BFS(Graph *graph, int start) {
     }
 }
 
-// Funcție pentru verificarea dacă coada este goală
 int is_empty(Node *queue) {
     return queue == NULL;
 }
 
-// Funcție pentru adăugarea unui element în coadă
 void enqueue(Node **queue, int data) {
     Node *new_node = create_node(data);
     if (is_empty(*queue)) {
@@ -108,7 +98,6 @@ void enqueue(Node **queue, int data) {
     }
 }
 
-// Funcție pentru extragerea unui element din coadă
 int dequeue(Node **queue) {
     int data = (*queue)->data;
     Node *temp = *queue;
@@ -117,14 +106,12 @@ int dequeue(Node **queue) {
     return data;
 }
 
-// Funcție pentru resetarea listei de noduri vizitate
 void reset_visited(Graph *graph) {
     for (int i = 0; i < graph->vertices; i++) {
         graph->visited[i] = 0;
     }
 }
 
-// Funcție pentru afișarea listei de adiacență a grafului
 void print_graph(Graph *graph) {
     for (int i = 0; i < graph->vertices; i++) {
         printf("Lista de adiacenta pentru nodul %d: ", i);
@@ -154,14 +141,14 @@ int main() {
         add_edge(graph, src, dest);
     }
 
-    printf("De unde plecam în DFS? ");
+    printf("De unde plecam in DFS? ");
     scanf("%d", &starting_vertex);
     printf("Parcurgere DFS: ");
     DFS(graph, starting_vertex);
     reset_visited(graph);
     printf("\n");
 
-    printf("De unde plecam în BFS? ");
+    printf("De unde plecam in BFS? ");
     scanf("%d", &starting_vertex);
     printf("Parcurgere BFS: ");
     BFS(graph, starting_vertex);
